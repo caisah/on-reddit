@@ -1,0 +1,20 @@
+{
+  "extends": "airbnb",
+  "globals": {
+    "browser": true,
+    "fetch": true
+  },
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "all",
+        "singleQuote": true
+      }
+    ],
+    "arrow-parens": 0
+  }
+}

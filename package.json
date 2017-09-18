@@ -1,0 +1,29 @@
+{
+  "name": "on-reddit-firefox-addon",
+  "version": "0.0.1",
+  "description": "Check if an URL was submitted to reddit.",
+  "main": "build/addon/background.js",
+  "scripts": {
+    "clean": "rm -R build",
+    "build": "sh build.sh",
+    "test": "test"
+  },
+  "keywords": [
+    "firefox",
+    "addon",
+    "reddit"
+  ],
+  "author": "Vlad Piersec",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-prettier": "^2.2.0",
+    "eslint-plugin-react": "^7.3.0",
+    "jest": "^21.1.0",
+    "prettier": "^1.6.1",
+    "rollup": "^0.50.0"
+  }
+}

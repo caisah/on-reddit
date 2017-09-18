@@ -1,0 +1,32 @@
+{
+
+  "manifest_version": 2,
+  "name": "On reddit",
+  "version": "0.0.1",
+
+  "description": "Check if the current url was submitted to reddit",
+
+  "icons": {
+    "48": "icons/white-48.png"
+  },
+
+  "permissions": ["*://reddit.com/*", "tabs", "webRequest"],
+
+  "browser_action": {
+    "browser_style": true,
+    "default_area": "navbar",
+    "default_icon": {
+      "16": "icons/white-16.png",
+      "32": "icons/white-32.png",
+      "64": "icons/white-64.png"
+    },
+    "default_title": "On reddit?",
+    "default_popup": "files/popup.html"
+  },
+
+  "background": {
+    "scripts": [
+      "files/background.js",
+    ]
+  }
+}
