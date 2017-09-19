@@ -1,4 +1,4 @@
-class Status {
+export default class Status {
   static get LOADING() {
     return 'LOADING';
   }

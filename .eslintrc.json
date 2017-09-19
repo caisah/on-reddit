@@ -2,7 +2,9 @@
   "extends": "airbnb",
   "globals": {
     "browser": true,
-    "fetch": true
+    "fetch": true,
+    "document":true,
+    "window": true
   },
   "plugins": [
     "prettier"

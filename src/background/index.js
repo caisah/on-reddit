@@ -1,20 +1,14 @@
-/* global STATUS, BASE_URL ERRORS Status, TabData, handleConnect */
+import { storeData, getData } from './cache';
+import { getKey, setKey, generateKey } from './key';
+import TabData from './tab';
+import { BASE_URL } from './constants';
+import handleConnect from './connection';
+import Status from './status';
+
 const status = new Status();
-const cache = {};
-let currentKey;
-
-const getInfoKey = tab => `${tab.windowId}--${tab.tabId}`;
-
-const shouldFetch = (tab, changeInfo, key) =>
-  changeInfo.url && tab.url.startsWith('http') && !cache[key];
-
-const storeData = data => {
-  cache[getInfoKey(data)] = data;
-};
 
 const getDataForTab = tab =>
   new Promise(resolve => {
-    status.set(Status.FETCHING);
     const requestUrl = `${BASE_URL}${encodeURIComponent(tab.url)}`;
 
     fetch(requestUrl)
@@ -48,44 +42,46 @@ const setBadge = text => {
     browser.browserAction.setBadgeBackgroundColor({ color: 'red' });
   } else {
     browser.browserAction.setBadgeText({ text });
+
     browser.browserAction.setBadgeBackgroundColor({ color: 'black' });
   }
 };
 
 const handleTabUpdate = (tabId, changeInfo, tab) => {
-  const key = `${tab.windowId}--${tab.id}`;
-
-  if (shouldFetch(tab, changeInfo, key)) {
-    getDataForTab(tab)
-      .then(data => {
-        storeData(data);
-        if (currentKey === key) {
-          setBadge(data.entries.length);
-        }
-
-        console.log('---data---', data);
-      })
-      .catch(err => {
-        status.set(Status.ERROR);
-        setBadge('N/A');
-        console.log('--- handletabupdate err ---', err);
-      });
+  if (!changeInfo.url) {
+    return;
   }
-  console.log('--- handletabupdate  ---', changeInfo);
+
+  if (!tab.url.startsWith('http')) {
+    setBadge('N/A');
+    return;
+  }
+
+  const key = generateKey(tab);
+  getDataForTab(tab)
+    .then(data => {
+      storeData(data);
+      if (getKey() === key) {
+        setBadge(data.entries.length);
+      }
+
+      console.log('---data---', data);
+    })
+    .catch(err => {
+      setBadge('Err');
+      console.log('--- handletabupdate err ---', err);
+    });
 };
 
 const handleTabActivation = tab => {
-  const key = getInfoKey(tab);
+  const key = generateKey(tab);
+  const tabData = getData(key);
 
-  if (cache[key]) {
-    setBadge(cache[key].entries.length);
+  if (tabData) {
+    setBadge(tabData.entries.length);
   }
-  currentKey = key;
+  setKey(key);
   console.log('---active tab---', tab);
-};
-
-const getCurrentTabData = () => {
-  return cache[currentKey];
 };
 
 const init = () => {

@@ -1,8 +1,11 @@
-class TabData {
+import { generateKey } from './key';
+
+export default class TabData {
   constructor(browserTab, jsonData = []) {
     this.tabId = browserTab.id;
     this.windowId = browserTab.windowId;
     this.entries = this.formatData(jsonData);
+    this.key = generateKey(browserTab);
   }
 
   formatData(json) {

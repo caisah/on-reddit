@@ -1,10 +1,11 @@
-/* global getCurrentTabData */
-/* eslint-disable no-unused-vars */
+import { getKey } from './key';
+import { getData } from './cache';
+
 let connection;
 
 const handleIncomingMessage = msg => {
   if (msg === 'data:get') {
-    connection.postMessage(getCurrentTabData());
+    connection.postMessage(getData(getKey()));
   }
 };
 
@@ -15,4 +16,5 @@ const handleConnect = port => {
     connection.onMessage.addListener(handleIncomingMessage);
   }
 };
-/* eslint-enable no-unused-vars */
+
+export default handleConnect;
