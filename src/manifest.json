@@ -21,12 +21,12 @@
       "64": "icons/white-64.png"
     },
     "default_title": "On reddit?",
-    "default_popup": "files/popup.html"
+    "default_popup": "popup.html"
   },
 
   "background": {
     "scripts": [
-      "files/background.js",
+      "background.js",
     ]
   }
 }
