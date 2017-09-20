@@ -1,7 +1,9 @@
+import html from './template';
+
 const render = data => {
   const main = document.getElementById('main');
-
-  main.innerHTML = `<div>${JSON.stringify(data)}</div>`;
+  console.log('---- render----', data);
+  main.innerHTML = html(data.entries);
 };
 
 const connectAndFetchData = () =>

@@ -4,7 +4,8 @@
     "browser": true,
     "fetch": true,
     "document":true,
-    "window": true
+    "window": true,
+    "URL": true
   },
   "plugins": [
     "prettier"
