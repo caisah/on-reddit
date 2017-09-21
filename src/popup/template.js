@@ -1,23 +1,29 @@
 const row = entry => `
   <li class="row">
-    <div class="votes">${entry.score}</div>
-    <div class="text">
-      <p class="title">
-        <a href="${entry.fullLink}">${entry.title}</a>
-        <span class="domain">(${entry.urlDomain})</span>
+
+    <div class="score">
+      <div>⬆</div>
+      <div>${entry.score}</div>
+      <div>⬇</div>
+    </div>
+
+    <div class="title">
+      <p>
+        <a class="text-title" href="${entry.fullLink}">${entry.title}</a>
+        &nbsp;<a class="text-domain text-regular" href="${entry.fullUrlDomain}">(${entry.urlDomain})</a>
       </p>
-      <p class="tagline">
-        submitted ${new Date(entry.timestamp).getDate()} by
-        <a class="author" href="${entry.authorUrl}">
+      <p class="text-regular">
+        submitted on ${entry.timeSinceSubmit} by
+        <a class="text-author text-link-regular" href="${entry.authorUrl}">
           ${entry.authorName}
         </a>
         to
-        <a href="${entry.subredditFulllink}" class="subreddit">
+        <a href="${entry.subredditFullLink}" class="text-link-regular">
           ${entry.subredditName}
         </a>
       </p>
-      <p class="comments">
-        <a href="${entry.fullLink}">${entry.commentsNumber} comments</a>
+      <p>
+        <a class="text-link-comments" href="${entry.fullLink}">${entry.commentsNumber} comments</a>
       </p>
     </div>
   </li>`;

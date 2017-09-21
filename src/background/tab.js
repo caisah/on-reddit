@@ -19,6 +19,7 @@ export default class TabData {
         timestamp: child.data.created_utc,
         score: child.data.score,
         urlDomain: child.data.domain,
+        fullUrlDomain: `http://${child.data.domain}`,
         authorName: child.data.author,
         authorUrl: `https://reddit.com/u/${child.data.author}`,
         commentsNumber: child.data.num_comments,

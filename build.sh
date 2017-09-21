@@ -1,14 +1,15 @@
 #!/bin/sh
 
+echo running Rollup...
 rollup --config rollup.config.js;
 
 echo
 echo Copying...
-echo Copying 'manifest.json';
 cp src/manifest.json build/addon/manifest.json;
-echo Copying 'index.html'
+echo Copied 'manifest.json';
 cp src/popup/index.html build/addon/popup.html;
-echo Copying 'style.css'
+echo Copied 'index.html'
 cp src/popup/style.css build/addon/style.css;
-echo Copying 'icons'
+echo Copied 'style.css'
 cp -R src/icons build/addon/icons;
+echo Copied 'icons'
