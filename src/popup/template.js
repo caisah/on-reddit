@@ -13,7 +13,7 @@ const row = entry => `
         &nbsp;<a class="text-domain text-regular" href="${entry.fullUrlDomain}">(${entry.urlDomain})</a>
       </p>
       <p class="text-regular">
-        submitted on ${entry.timeSinceSubmit} by
+        submitted ${entry.timeSinceSubmit} by
         <a class="text-author text-link-regular" href="${entry.authorUrl}">
           ${entry.authorName}
         </a>

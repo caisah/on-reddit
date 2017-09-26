@@ -1,4 +1,5 @@
 import { generateKey } from './key';
+import getTimeString from './time';
 
 export default class TabData {
   constructor(browserTab, jsonData = []) {
@@ -16,7 +17,7 @@ export default class TabData {
         link: child.data.permalink,
         fullLink: `https://reddit.com${child.data.permalink}`,
         title: child.data.title,
-        timestamp: child.data.created_utc,
+        timeSinceSubmit: getTimeString(child.data.created_utc),
         score: child.data.score,
         urlDomain: child.data.domain,
         fullUrlDomain: `http://${child.data.domain}`,
