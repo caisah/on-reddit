@@ -3,9 +3,21 @@ import { getKey, setKey, generateKey } from './key';
 import TabData from './tab';
 import { BASE_URL } from './constants';
 import handleConnect from './connection';
-import Status from './status';
 
-const status = new Status();
+const setBadge = text => {
+  let color = '#84AC25';
+
+  if (text === 'N/A') {
+    color = '#000000';
+  } else if (text === 'Err') {
+    color = '#921756';
+  } else if (text === 0) {
+    color = '#6278A7';
+  }
+
+  browser.browserAction.setBadgeText({ text: text.toString() });
+  browser.browserAction.setBadgeBackgroundColor({ color });
+};
 
 const getDataForTab = tab =>
   new Promise(resolve => {
@@ -18,34 +30,25 @@ const getDataForTab = tab =>
             .json()
             .then(json => {
               console.log('---res---', json);
-              status.set(Status.IDLE);
               resolve(new TabData(tab, json));
             })
-            .catch(() => {
-              status.set(Status.ERROR, 'Json parse');
-              resolve(new TabData(tab));
+            .catch(err => {
+              console.log('---res---', err);
+              setBadge('Err');
+              resolve(new TabData(tab), { err: 'json parse' });
             });
         } else {
-          status.set(Status.ERROR, `Status code ${res.status}`);
-          resolve(new TabData(tab));
+          console.log('---res---', res.status);
+          setBadge('Err');
+          resolve(new TabData(tab), { err: `status code ${res.status}` });
         }
       })
-      .catch(() => {
-        status.set(Status.ERROR, 'Network');
-        resolve(new TabData(tab));
+      .catch(err => {
+        console.log('---res---', err);
+        setBadge('Err');
+        resolve(new TabData(tab), { err: 'network' });
       });
   });
-
-const setBadge = text => {
-  if (typeof text === 'number') {
-    browser.browserAction.setBadgeText({ text: text.toString() });
-    browser.browserAction.setBadgeBackgroundColor({ color: 'red' });
-  } else {
-    browser.browserAction.setBadgeText({ text });
-
-    browser.browserAction.setBadgeBackgroundColor({ color: 'black' });
-  }
-};
 
 const handleTabUpdate = (tabId, changeInfo, tab) => {
   if (!changeInfo.url) {
@@ -58,6 +61,7 @@ const handleTabUpdate = (tabId, changeInfo, tab) => {
   }
 
   const key = generateKey(tab);
+
   getDataForTab(tab)
     .then(data => {
       storeData(data);

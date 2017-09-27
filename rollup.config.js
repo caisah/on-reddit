@@ -5,7 +5,6 @@ const BACKGROUND = {
     file: 'build/addon/background.js',
   },
   name: 'background',
-  sourcemap: true,
 };
 
 const POPUP = {
@@ -15,7 +14,6 @@ const POPUP = {
     file: 'build/addon/script.js',
   },
   name: 'script',
-  sourcemap: true,
 };
 
 export default [BACKGROUND, POPUP];

@@ -1,6 +1,7 @@
 body {
   font: normal x-small verdana,arial,helvetica,sans-serif;
   margin: 5px 5px 5px 0;
+  min-height: 70px;
   max-height: 200px;
   padding: 0;
   width: 470px;
@@ -20,6 +21,29 @@ p {
 
 a:visited {
   color: #551a8b;
+}
+
+.nothing {
+  font-size: large;
+  font-weight: bold;
+  line-height: 70px;
+  text-align: center;
+}
+
+.submit-btn-container {
+  align-items: center;
+  display: flex;
+  height: 70px;
+  justify-content: center;
+}
+
+.submit-btn {
+  background-color: #4d4d4d;
+  border: 1px outset gray;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 25px;
+  text-align: center;
 }
 
 .row {

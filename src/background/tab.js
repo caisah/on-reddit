@@ -2,11 +2,13 @@ import { generateKey } from './key';
 import getTimeString from './time';
 
 export default class TabData {
-  constructor(browserTab, jsonData = []) {
+  constructor(browserTab, jsonData) {
     this.tabId = browserTab.id;
     this.windowId = browserTab.windowId;
     this.entries = this.formatData(jsonData);
     this.key = generateKey(browserTab);
+    this.url = browserTab.url;
+    this.err = jsonData.err;
   }
 
   formatData(json) {

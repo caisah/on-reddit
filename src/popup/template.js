@@ -28,12 +28,22 @@ const row = entry => `
     </div>
   </li>`;
 
-const html = entries => {
-  if (!entries.length) {
-    return '<div>Not yet submitted</div>';
+const submitBtn = url => `
+<div class="submit-btn-container">
+  <a href="https://www.reddit.com/submit?url=${url}">
+    <button class="submit-btn">
+      Submit
+    </button>
+  </a>
+</div>
+`;
+
+const html = data => {
+  if (!data.entries.length) {
+    return submitBtn(data.url);
   }
 
-  const htmlEntries = entries.map(row);
+  const htmlEntries = data.entries.map(row);
 
   return `<ul class="container">${htmlEntries}</ul>`;
 };

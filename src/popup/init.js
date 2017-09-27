@@ -3,7 +3,7 @@ import html from './template';
 const render = data => {
   const main = document.getElementById('main');
   console.log('---- render----', data);
-  main.innerHTML = html(data.entries);
+  main.innerHTML = html(data);
 };
 
 const connectAndFetchData = () =>
