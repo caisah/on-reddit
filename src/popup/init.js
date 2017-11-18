@@ -1,8 +1,9 @@
+import DOMPurify from 'dompurify';
 import html from './template';
 
 const render = data => {
   const main = document.getElementById('main');
-  main.innerHTML = html(data);
+  main.innerHTML = DOMPurify.sanitize(html(data));
 };
 
 const connectAndFetchData = () =>

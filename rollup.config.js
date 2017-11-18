@@ -1,3 +1,5 @@
+import resolve from 'rollup-plugin-node-resolve';
+
 const BACKGROUND = {
   input: 'src/background/index.js',
   output: {
@@ -14,6 +16,7 @@ const POPUP = {
     file: 'build/addon/script.js',
   },
   name: 'script',
+  plugins: [resolve()],
 };
 
 export default [BACKGROUND, POPUP];
