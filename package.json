@@ -5,7 +5,8 @@
   "main": "build/addon/background.js",
   "scripts": {
     "clean": "rm -R build",
-    "build": "sh build.sh",
+    "build": "npm run clean && sh ./scripts/build.sh",
+    "pack": "sh ./scripts/pack.sh",
     "test": "test"
   },
   "keywords": [
