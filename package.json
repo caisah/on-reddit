@@ -1,6 +1,6 @@
 {
   "name": "on-reddit-firefox-addon",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Check if an URL was submitted to reddit.",
   "main": "build/addon/background.js",
   "scripts": {
