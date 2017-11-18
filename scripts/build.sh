@@ -23,3 +23,5 @@ echo Copied $STYLES
 
 cp -R "$SRC_PATH/$ICONS" "$DEST_PATH"
 echo Copied $ICONS
+
+echo Done.

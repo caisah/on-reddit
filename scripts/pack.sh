@@ -19,4 +19,5 @@ echo "Archiving..."
 cd $SRC
 zip -r  "../$NAME.zip" .
 echo "Created $ARCHIVE"
+echo Done.
 
