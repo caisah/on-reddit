@@ -2,7 +2,6 @@ import html from './template';
 
 const render = data => {
   const main = document.getElementById('main');
-  console.log('---- render----', data);
   main.innerHTML = html(data);
 };
 
@@ -21,7 +20,7 @@ const init = () => {
     connectAndFetchData()
       .then(render)
       .catch(err => {
-        console.log('--err rendering---', err);
+        console.error('Error rendering:', err);
       });
   });
 };

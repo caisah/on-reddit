@@ -1,3 +1,4 @@
+//
 import { storeData, getData } from './cache';
 import { getKey, setKey, generateKey } from './key';
 import TabData from './tab';
@@ -19,36 +20,35 @@ const setBadge = text => {
   browser.browserAction.setBadgeBackgroundColor({ color });
 };
 
-const getDataForTab = tab =>
-  new Promise(resolve => {
-    const requestUrl = `${BASE_URL}${encodeURIComponent(tab.url)}`;
+const getDataForTab = tab => {
+  const requestUrl = `${BASE_URL}${encodeURIComponent(tab.url)}`;
 
-    fetch(requestUrl)
-      .then(res => {
-        if (res.status === 200) {
-          res
-            .json()
-            .then(json => {
-              console.log('---res---', json);
-              resolve(new TabData(tab, json));
-            })
-            .catch(err => {
-              console.log('---res---', err);
-              setBadge('Err');
-              resolve(new TabData(tab), { err: 'json parse' });
-            });
-        } else {
-          console.log('---res---', res.status);
-          setBadge('Err');
-          resolve(new TabData(tab), { err: `status code ${res.status}` });
-        }
-      })
-      .catch(err => {
-        console.log('---res---', err);
+  return fetch(requestUrl)
+    .then(res => {
+      if (res.status === 200) {
+        return res
+          .json()
+          .then(json => new TabData(tab, json))
+          .catch(err => {
+            console.error('Json parse error:', err);
+            setBadge('Err');
+
+            return new TabData(tab, { err: 'json parse' });
+          });
+      } else {
+        console.error('Status code error:', res.status);
         setBadge('Err');
-        resolve(new TabData(tab), { err: 'network' });
-      });
-  });
+
+        return new TabData(tab, { err: `status code ${res.status}` });
+      }
+    })
+    .catch(err => {
+      console.error('Network error:', err);
+      setBadge('Err');
+
+      return new TabData(tab, { err: 'network' });
+    });
+};
 
 const handleTabUpdate = (tabId, changeInfo, tab) => {
   if (!changeInfo.url) {
@@ -64,16 +64,18 @@ const handleTabUpdate = (tabId, changeInfo, tab) => {
 
   getDataForTab(tab)
     .then(data => {
+      if (data.err) {
+        return setBadge('Err');
+      }
+
       storeData(data);
       if (getKey() === key) {
         setBadge(data.entries.length);
       }
-
-      console.log('---data---', data);
     })
     .catch(err => {
       setBadge('Err');
-      console.log('--- handletabupdate err ---', err);
+      console.error('Tab update error', err);
     });
 };
 
@@ -85,7 +87,6 @@ const handleTabActivation = tab => {
     setBadge(tabData.entries.length);
   }
   setKey(key);
-  console.log('---active tab---', tab);
 };
 
 const init = () => {
