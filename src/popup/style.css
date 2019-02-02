@@ -1,5 +1,26 @@
+@font-face {
+  font-family:IBMPlexSans;
+  font-weight:400;
+  font-style:normal;
+  src: url(https://www.redditstatic.com/desktop2x/fonts/IBMPlexSans/Regular-116bb6d508f5307861d3b1269bc597e7.woff2) format("woff2"), url(https://www.redditstatic.com/desktop2x/fonts/IBMPlexSans/Regular-e6bbcdd30d3bd4d6b170bcb6d3552cab.woff) format("woff")
+}
+
+@font-face {
+  font-family:IBMPlexSans;
+  font-weight:500;
+  font-style:normal;
+src:url(https://www.redditstatic.com/desktop2x/fonts/IBMPlexSans/Medium-c4b185e25a4dde85a29f902cd5ce5360.woff2) format("woff2"),url(https://www.redditstatic.com/desktop2x/fonts/IBMPlexSans/Medium-1051a531d3e1ee3483a6533158557139.woff) format("woff")}
+
+@font-face {
+  font-family:IBMPlexSans;
+  font-weight:700;
+  font-style:normal;
+src:url(https://www.redditstatic.com/desktop2x/fonts/IBMPlexSans/Bold-875de5047556e7c822519d95d7ee692d.woff2) format("woff2"),url(https://www.redditstatic.com/desktop2x/fonts/IBMPlexSans/Bold-c34ba754b7235b49d33b294ff7a54179.woff) format("woff")
+}
+
+
 body {
-  font: normal x-small verdana,arial,helvetica,sans-serif;
+  font-family: IBMPlexSans, Helvetica Neue, Segoe UI, Helvetica, Verdana, Arial, sans-serif;
   margin: 5px 5px 5px 0;
   min-height: 70px;
   max-height: 200px;
@@ -91,5 +112,3 @@ a:visited {
   color: #888;
   font-weight: bold;
 }
-
-

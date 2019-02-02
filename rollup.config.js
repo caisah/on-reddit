@@ -19,4 +19,13 @@ const POPUP = {
   plugins: [resolve()],
 };
 
-export default [BACKGROUND, POPUP];
+const OPTIONS = {
+  input: 'src/options/options.js',
+  output: {
+    format: 'iife',
+    file: 'build/addon/options.js',
+  },
+  name: 'options',
+};
+
+export default [BACKGROUND, POPUP, OPTIONS];

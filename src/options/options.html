@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="options.css"/>
+  </head>
+
+  <body>
+    <fieldset>
+      <legend>Addon options</legend>
+      <div>
+        <input type="checkbox" id="requests-on-demand" name="requests-on-demand" checked="false" />
+        <label for="requests-on-demand">Make requests on demand</label>
+      </div>
+      <div>
+        <input type="checkbox" id="logging-enabled" name="logging-enabled" checked="false" />
+        <label for="logging-enabled">Enable logging</label>
+      </div>
+    </fieldset>
+    <p class="header">Addon options</p>
+    <ul>
+      <li>
+        <div>
+          If <strong>Make requests on demand</strong> is selected, URL will be be checked only when pressing the addon button. (The badge number which represents the number of submissions won't be displayed anymore).
+        </div>
+      </li>
+      <li>
+        <div>
+          If <strong>Enable logging</strong> is selected the extension will collect logs to <em>local storage</em>. This options is useful if you want to debug the addon.
+        </div>
+      </li>
+    </ul>
+    <script src="options.js"></script>
+  </body>
+</html>

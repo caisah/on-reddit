@@ -3,6 +3,7 @@ import html from './template';
 
 const render = data => {
   const main = document.getElementById('main');
+
   main.innerHTML = DOMPurify.sanitize(html(data));
 };
 
@@ -20,6 +21,7 @@ const init = () => {
   document.addEventListener('DOMContentLoaded', () => {
     connectAndFetchData()
       .then(render)
+
       .catch(err => {
         console.error('Error rendering:', err);
       });

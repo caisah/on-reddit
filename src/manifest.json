@@ -10,7 +10,7 @@
     "48": "icons/white-48.png"
   },
 
-  "permissions": ["*://reddit.com/*", "tabs", "webRequest"],
+  "permissions": ["*://reddit.com/*", "tabs", "webRequest", "storage"],
 
   "browser_action": {
     "browser_style": true,
@@ -28,5 +28,10 @@
     "scripts": [
       "background.js"
     ]
+  },
+
+  "options_ui": {
+    "page": "options.html",
+    "browser_style": true
   }
 }

@@ -1,9 +1,11 @@
-//
+import { onStorageChange } from '../common/storage';
 import { storeData, getData } from './cache';
 import { getKey, setKey, generateKey } from './key';
 import TabData from './tab';
 import { BASE_URL } from './constants';
 import handleConnect from './connection';
+
+let options;
 
 const setBadge = text => {
   let color = '#84AC25';
@@ -93,6 +95,12 @@ const init = () => {
   browser.runtime.onConnect.addListener(handleConnect);
   browser.tabs.onUpdated.addListener(handleTabUpdate);
   browser.tabs.onActivated.addListener(handleTabActivation);
+
+  onStorageChange(newOptions => {
+    options = newOptions;
+  });
+
+  console.log(options);
 };
 
 init();

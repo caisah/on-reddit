@@ -4,8 +4,10 @@
   "description": "Check if an URL was submitted to reddit.",
   "main": "build/addon/background.js",
   "scripts": {
-    "clean": "rm -R build",
-    "build": "npm run clean && sh ./scripts/build.sh",
+    "clean": "sh ./scripts/clean.sh",
+    "build": "sh ./scripts/build.sh",
+    "buildclean": "npm run clean && npm run build",
+    "watch": "watch 'npm run build' src",
     "pack": "sh ./scripts/pack.sh",
     "test": "test"
   },
@@ -17,16 +19,18 @@
   "author": "Vlad Piersec",
   "license": "GPL-3.0",
   "devDependencies": {
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-prettier": "^2.3.1",
-    "eslint-plugin-react": "^7.4.0",
-    "jest": "^21.2.1",
-    "prettier": "^1.8.2",
+    "eslint": "^5.5.0",
+    "eslint-config-prettier": "^3.0.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "prettier": "^1.14.2",
     "rollup": "^0.50.1",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "watch": "^1.0.2"
   },
   "dependencies": {
     "dompurify": "^1.0.2"
