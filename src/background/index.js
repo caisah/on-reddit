@@ -1,9 +1,9 @@
-import { onStorageChange } from '../common/storage';
 import { storeData, getData } from './cache';
 import { getKey, setKey, generateKey } from './key';
 import TabData from './tab';
 import { BASE_URL } from './constants';
 import handleConnect from './connection';
+import { log } from '../common/logger';
 
 let options;
 
@@ -32,20 +32,20 @@ const getDataForTab = tab => {
           .json()
           .then(json => new TabData(tab, json))
           .catch(err => {
-            console.error('Json parse error:', err);
+            log(`Json parse error: ${err}`);
             setBadge('Err');
 
             return new TabData(tab, { err: 'json parse' });
           });
       } else {
-        console.error('Status code error:', res.status);
+        log(`Status code error: ${res.status}`);
         setBadge('Err');
 
         return new TabData(tab, { err: `status code ${res.status}` });
       }
     })
     .catch(err => {
-      console.error('Network error:', err);
+      log(`Network error: ${err}`);
       setBadge('Err');
 
       return new TabData(tab, { err: 'network' });
@@ -77,7 +77,7 @@ const handleTabUpdate = (tabId, changeInfo, tab) => {
     })
     .catch(err => {
       setBadge('Err');
-      console.error('Tab update error', err);
+      log(`Tab update error: ${err}`);
     });
 };
 
@@ -96,11 +96,8 @@ const init = () => {
   browser.tabs.onUpdated.addListener(handleTabUpdate);
   browser.tabs.onActivated.addListener(handleTabActivation);
 
-  onStorageChange(newOptions => {
-    options = newOptions;
-  });
-
-  console.log(options);
+  log('hello');
+  log('yeah');
 };
 
 init();

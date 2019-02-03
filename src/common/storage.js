@@ -19,14 +19,7 @@ export const LOGGING = 'LOGGING';
  */
 export const OPTIONS = 'options';
 
-/**
- * Handles an error when storage can't be read or written
- *
- * @param {Error} err
- */
-const onError = err => {
-  console.error(err);
-};
+const LOGS = 'logs';
 
 const defaultOptions = {
   LOGGING: false,
@@ -44,7 +37,7 @@ export const getStoredeOptions = () =>
       const options = stored[OPTIONS] || defaultOptions;
 
       resolve(options);
-    }, onError);
+    });
   });
 
 /**
@@ -55,13 +48,37 @@ export const getStoredeOptions = () =>
  * @arg {boolean} options.LOGGING
  * @returns{promise}
  */
-export const setStoredOptions = options =>
-  browser.storage.local.set({ options });
+class StoredObj {
+  constructor(key, initialValue) {
+    this.key = key;
+    this.initialValue = initialValue;
+  }
 
-export const onStorageChange = listener => {
-  browser.storage.onChanged.addListener((changes, area) => {
-    if (area === 'local') {
-      listener(changes[OPTIONS].newValue);
-    }
-  });
-};
+  getData() {
+    return new Promise(resolve => {
+      browser.storage.local.get(this.key).then(
+        stored => {
+          resolve(stored[this.key] || this.initialValue);
+        },
+        () => {
+          resolve(this.initialValue);
+        },
+      );
+    });
+  }
+
+  setData(data) {
+    browser.storage.local.set({ [this.key]: data });
+  }
+
+  onChange(listener) {
+    browser.storage.onChanged.addListener((changes, area) => {
+      if (area === 'local' && changes[this.key] && changes[this.key].newValue) {
+        listener(changes[OPTIONS].newValue);
+      }
+    });
+  }
+}
+
+export const storedOptions = new StoredObj(OPTIONS, defaultOptions);
+export const storedLogs = new StoredObj(LOGS, '');

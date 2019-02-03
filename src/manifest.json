@@ -1,5 +1,4 @@
 {
-
   "manifest_version": 2,
   "name": "On reddit",
   "version": "0.0.2",
@@ -10,7 +9,13 @@
     "48": "icons/white-48.png"
   },
 
-  "permissions": ["*://reddit.com/*", "tabs", "webRequest", "storage"],
+  "permissions": [
+    "*://reddit.com/*",
+    "tabs",
+    "webRequest",
+    "storage",
+    "clipboardWrite"
+  ],
 
   "browser_action": {
     "browser_style": true,
@@ -25,9 +30,7 @@
   },
 
   "background": {
-    "scripts": [
-      "background.js"
-    ]
+    "scripts": ["background.js"]
   },
 
   "options_ui": {

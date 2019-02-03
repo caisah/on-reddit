@@ -1,9 +1,4 @@
-import {
-  getStoredeOptions,
-  setStoredOptions,
-  ON_DEMAND,
-  LOGGING,
-} from '../common/storage';
+import { storedOptions, ON_DEMAND, LOGGING } from '../common/storage';
 
 /**
  * An object holding the addon options:
@@ -33,7 +28,7 @@ class Input {
     // Save changes to storage when toggled and cache it afterwards
     this.element.addEventListener('input', ({ target: { checked } }) => {
       options[attribute] = checked;
-      setStoredOptions(options);
+      storedOptions.setData(options);
     });
   }
 
@@ -55,11 +50,11 @@ const init = () => {
   ];
 
   // Load the options from storage and cache it into an 'options' object
-  getStoredeOptions().then(storedOptions => {
+  storedOptions.getData().then(data => {
     inputs.forEach(input => {
-      input.check(storedOptions[input.attribute]);
+      input.check(data[input.attribute]);
     });
-    options = storedOptions;
+    options = data;
   });
 };
 
