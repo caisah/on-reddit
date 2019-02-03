@@ -1,6 +1,5 @@
 {
   "extends": ["standard", "prettier"],
-  "plugins": ["prettier", "standard"],
   "parserOptions": {
     "sourceType": "module"
   },
