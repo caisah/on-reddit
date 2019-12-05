@@ -92,6 +92,7 @@ const handleTabActivation = tab => {
 };
 
 const init = () => {
+  // Listen for the messages from the content script
   browser.runtime.onConnect.addListener(handleConnect);
   browser.tabs.onUpdated.addListener(handleTabUpdate);
   browser.tabs.onActivated.addListener(handleTabActivation);

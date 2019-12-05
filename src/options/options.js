@@ -1,66 +1,36 @@
-import { storedOptions, ON_DEMAND, LOGGING } from '../common/storage';
+import { loggingOption, onDemandOption } from '../common/storage'
 
 /**
- * An object holding the addon options:
+ * Addon options for:
+ * - making requests on demand;
+ * - logging;
  *
- * @typedef {object} options
- * @property {boolean} ON_DEMAND
- *   When enabled addon does request only when clicking on icon
- * @property {boolean} LOGGING
- *   When enabled addon saves logs to storage
+ * @type {import('../common/storage').options}
  */
-let options;
+export let options
 
 /**
  * Selects a new input based on id and creates an attribute for it.
  * It also attaches an event which change the attribute in storage on select
  */
-class Input {
-  /**
-   * @param {string} id - The CSS id element from options.html page
-   * @param {string} attribute - One of the storage attributes:
-   *        ON_DEMAND or LOGGING
-   */
-  constructor(id, attribute) {
-    this.element = document.getElementById(id);
-    this.attribute = attribute;
+function bindInput (id, store) {
+  const element = document.getElementById(id)
 
-    // Save changes to storage when toggled and cache it afterwards
-    this.element.addEventListener('input', ({ target: { checked } }) => {
-      options[attribute] = checked;
-      storedOptions.setData(options);
-    });
-  }
-
-  /**
-   * Checks or unchecks the input based on the data from the flag
-   *
-   * @param {boolen} checked
-   */
-  check(checked) {
-    this.element.checked = checked || false;
-  }
+  // Save changes to storage
+  element.addEventListener('input', ({ target: { checked } }) => {
+    store.setData(checked)
+  })
 }
 
-// Select the inputs, get data from cache and update the UI according to the received data
-const init = () => {
-  const inputs = [
-    new Input('requests-on-demand', ON_DEMAND),
-    new Input('logging-enabled', LOGGING),
-  ];
-
-  // Load the options from storage and cache it into an 'options' object
-  storedOptions.getData().then(data => {
-    inputs.forEach(input => {
-      input.check(data[input.attribute]);
-    });
-    options = data;
-  });
-};
+// Attach options to html inputs
+const init = async () => {
+  bindInput('requests-on-demand', onDemandOption)
+  bindInput('logging-enabled', loggingOption)
+}
 
 // Load cached data and attach handlers when options.html page loads
 document.onreadystatechange = () => {
   if (document.readyState === 'complete') {
-    init();
+    init()
   }
-};
+}

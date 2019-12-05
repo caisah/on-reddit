@@ -1,20 +1,22 @@
-import { getKey } from './key';
-import { getData } from './cache';
+import { getKey } from './key'
+import { getData } from './cache'
+import { MESSAGES } from '../common/constants'
 
-let connection;
+let connection
 
 const handleIncomingMessage = msg => {
-  if (msg === 'data:get') {
-    connection.postMessage(getData(getKey()));
+  if (msg === MESSAGES.GET_DATA) {
+    connection.postMessage(getData(getKey()))
   }
-};
+}
 
+// Store
 const handleConnect = port => {
   if (port.name === 'on-reddit') {
-    connection = port;
+    connection = port
 
-    connection.onMessage.addListener(handleIncomingMessage);
+    connection.onMessage.addListener(handleIncomingMessage)
   }
-};
+}
 
-export default handleConnect;
+export default handleConnect
