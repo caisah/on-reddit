@@ -32,6 +32,7 @@
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "dompurify": "^1.0.2"
+    "dompurify": "^1.0.2",
+    "prettier-standard": "^16.1.0"
   }
 }

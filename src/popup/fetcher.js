@@ -1,7 +1,7 @@
 import DOMPurify from 'dompurify'
 import successHtml from './templates/success'
 import failHtml from './templates/fail'
-import { PORT, MESSAGES } from '../common/constants'
+import { PORT_NAME, MESSAGES } from '../common/constants'
 
 const renderSuccess = data => {
   const main = document.getElementById('main')
@@ -16,10 +16,10 @@ const renderFail = () => {
 }
 
 const connectAndRender = () => {
-  // Connect to the background script through PORT
-  const port = browser.runtime.connect({ name: PORT })
+  // Connect to the background script through PORT_NAME
+  const port = browser.runtime.connect({ name: PORT_NAME })
 
-  // Listen to message from background script on PORT
+  // Listen to message from background script on PORT_NAME
   port.onMessage.addListener(data => {
     console.log('Received data from background', data)
 

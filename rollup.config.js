@@ -1,31 +1,31 @@
-import resolve from 'rollup-plugin-node-resolve';
+import resolve from 'rollup-plugin-node-resolve'
 
 const BACKGROUND = {
   input: 'src/background/index.js',
   output: {
     format: 'iife',
-    file: 'build/addon/background.js',
+    file: 'build/addon/background.js'
   },
-  name: 'background',
-};
+  name: 'background'
+}
 
 const POPUP = {
-  input: 'src/popup/script.js',
+  input: 'src/popup/index.js',
   output: {
     format: 'iife',
-    file: 'build/addon/script.js',
+    file: 'build/addon/script.js'
   },
   name: 'script',
-  plugins: [resolve()],
-};
+  plugins: [resolve()]
+}
 
 const OPTIONS = {
-  input: 'src/options/options.js',
+  input: 'src/options/index.js',
   output: {
     format: 'iife',
-    file: 'build/addon/options.js',
+    file: 'build/addon/options.js'
   },
-  name: 'options',
-};
+  name: 'options'
+}
 
-export default [BACKGROUND, POPUP, OPTIONS];
+export default [BACKGROUND, POPUP, OPTIONS]

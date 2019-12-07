@@ -1,6 +1,6 @@
 import { getKey } from './key'
 import { getData } from './cache'
-import { MESSAGES } from '../common/constants'
+import { MESSAGES, PORT_NAME } from '../common/constants'
 
 let connection
 
@@ -12,7 +12,7 @@ const handleIncomingMessage = msg => {
 
 // Store
 const handleConnect = port => {
-  if (port.name === 'on-reddit') {
+  if (port.name === PORT_NAME) {
     connection = port
 
     connection.onMessage.addListener(handleIncomingMessage)
