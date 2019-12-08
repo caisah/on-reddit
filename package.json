@@ -7,8 +7,9 @@
     "clean": "sh ./scripts/clean.sh",
     "build": "sh ./scripts/build.sh",
     "buildclean": "npm run clean && npm run build",
+    "format": "prettier-standard src",
     "watch": "watch 'npm run build' src",
-    "lint": "./node_modules/eslint/bin/eslint.js ./src",
+    "lint": "standard ./src",
     "pack": "sh ./scripts/pack.sh",
     "test": "test"
   },
@@ -20,19 +21,26 @@
   "author": "Vlad Piersec",
   "license": "GPL-3.0",
   "devDependencies": {
-    "eslint": "^5.5.0",
-    "eslint-config-prettier": "^3.0.1",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
+    "babel-eslint": "^10.0.3",
+    "install": "^0.13.0",
+    "npm": "^6.13.2",
     "rollup": "^0.50.1",
     "rollup-plugin-node-resolve": "^3.0.0",
+    "standard": "^14.3.1",
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "dompurify": "^1.0.2",
-    "prettier-standard": "^16.1.0"
+    "dompurify": "^1.0.2"
+  },
+  "standard": {
+    "envs": [
+      "browser",
+      "es6",
+      "node"
+    ],
+    "globals": [
+      "browser"
+    ],
+    "parser": "babel-eslint"
   }
 }

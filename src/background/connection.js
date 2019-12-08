@@ -1,21 +1,21 @@
-import { getKey } from './key'
-import { getData } from './cache'
 import { MESSAGES, PORT_NAME } from '../common/constants'
 
 let connection
 
-const handleIncomingMessage = msg => {
+const handleIncomingMessage = async (cache, msg) => {
   if (msg === MESSAGES.GET_DATA) {
-    connection.postMessage(getData(getKey()))
+    const data = await cache.getCurrent()
+
+    connection.postMessage(data)
   }
 }
 
 // Store
-const handleConnect = port => {
+const handleConnect = (cache, port) => {
   if (port.name === PORT_NAME) {
     connection = port
 
-    connection.onMessage.addListener(handleIncomingMessage)
+    connection.onMessage.addListener(handleIncomingMessage.bind(cache))
   }
 }
 

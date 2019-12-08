@@ -26,8 +26,30 @@
 //   return data + collectLogsFromBuffer()
 // }
 
-export const log = (...args) => {
-  console.log('[on-reddit]:', ...args)
+const noLoggingFn = () => {}
+const loggingFn = (...args) => {
+  console.log('on-reddit ::', ...args)
 }
 
-export const setLogging = () => {}
+let log = noLoggingFn
+
+const logger = {
+  get log () {
+    return log
+  },
+
+  /**
+   * Toggles on and of logging.
+   *
+   * @param {boolean} enableLogging - Flag used to control loggin
+   */
+  toggleLogging (enableLogging) {
+    if (enableLogging) {
+      log = loggingFn
+    } else {
+      log = noLoggingFn
+    }
+  }
+}
+
+export default logger
