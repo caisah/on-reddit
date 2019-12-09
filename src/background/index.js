@@ -5,21 +5,7 @@ import logger from './logger'
 import Option from './option'
 import Cache from './cache'
 import TabInfo from './tab-info'
-
-const setBadge = text => {
-  let color = '#84AC25'
-
-  if (text === 'N/A') {
-    color = '#000000'
-  } else if (text === 'Err') {
-    color = '#921756'
-  } else if (text === 0) {
-    color = '#6278A7'
-  }
-
-  browser.browserAction.setBadgeText({ text: text.toString() })
-  browser.browserAction.setBadgeBackgroundColor({ color })
-}
+import badge from './badge'
 
 const handleTabUpdate = async (cache, id, changeInfo, tab) => {
   const tabInfo = new TabInfo(tab, changeInfo)
@@ -30,14 +16,17 @@ const handleTabUpdate = async (cache, id, changeInfo, tab) => {
   }
 
   if (!tabInfo.urlNotValid()) {
-    logger.log(`Tab url not valid ${tabInfo.url}`)
-    setBadge('N/A')
+    logger.log(`Tab updated. Tab url not valid ${tabInfo.url}`)
+
+    badge.setType(badge.types.error)
     return
   }
 
   const request = new ApiRequest(tabInfo)
-
   cache.add(request.execute())
+  const data = await cache.getCurrent()
+
+  badge.setFromData(data)
   // todo: set badge
 }
 
@@ -48,6 +37,7 @@ const handleTabActivation = (cache, { id }) => {
 }
 
 const init = () => {
+  badge.setType(badge.types.initial)
   const loggingOption = new Option(LOGGING)
   const requestsOnDemandOption = new Option(ON_DEMAND_REQESTS)
   const cache = new Cache()
@@ -58,9 +48,9 @@ const init = () => {
   })
 
   // Listen for the messages from the popup script
-  browser.runtime.onConnect.addListener(handleConnect.bind(cache))
-  browser.tabs.onUpdated.addListener(handleTabUpdate.bind(cache))
-  browser.tabs.onActivated.addListener(handleTabActivation.bind(cache))
+  browser.runtime.onConnect.addListener(handleConnect.bind(null, cache))
+  browser.tabs.onUpdated.addListener(handleTabUpdate.bind(null, cache))
+  browser.tabs.onActivated.addListener(handleTabActivation.bind(null, cache))
 }
 
 // When the extensions starts up

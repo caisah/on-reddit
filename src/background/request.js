@@ -1,5 +1,6 @@
 import logger from './logger'
-import { REDDIT_API_URL, REQUEST_ERROR_TYPES } from './constants'
+import getTimeString from './time'
+import { REDDIT_API_URL, REQUEST_ERROR_TYPES, ENTRIES } from './constants'
 
 class Request {
   constructor (url, tab) {
@@ -7,7 +8,30 @@ class Request {
     this.tab = tab
   }
 
-  async execute () {
+  formatData (json) {
+    if (json.data && json.data.children) {
+      const data = json.data.children.map(child => ({
+        subredditName: `/r/${child.data.subreddit}`,
+        subredditFullLink: `https://reddit.com/r/${child.data.subreddit}`,
+        link: child.data.permalink,
+        fullLink: `https://reddit.com${child.data.permalink}`,
+        title: child.data.title,
+        timeSinceSubmit: getTimeString(child.data.created_utc),
+        score: child.data.score,
+        urlDomain: child.data.domain,
+        fullUrlDomain: `http://${child.data.domain}`,
+        authorName: child.data.author,
+        authorUrl: `https://reddit.com/u/${child.data.author}`,
+        commentsNumber: child.data.num_comments
+      }))
+
+      return { type: ENTRIES, data }
+    }
+
+    return json
+  }
+
+  async makeRequest () {
     try {
       const res = await fetch(this.url)
 
@@ -32,6 +56,12 @@ class Request {
 
       return { type: REQUEST_ERROR_TYPES.NETWORK, err }
     }
+  }
+
+  async execute () {
+    const json = await this.makeRequest()
+
+    return this.formatData(json)
   }
 }
 

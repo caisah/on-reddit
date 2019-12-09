@@ -15,7 +15,7 @@ const handleConnect = (cache, port) => {
   if (port.name === PORT_NAME) {
     connection = port
 
-    connection.onMessage.addListener(handleIncomingMessage.bind(cache))
+    connection.onMessage.addListener(handleIncomingMessage.bind(null, cache))
   }
 }
 
