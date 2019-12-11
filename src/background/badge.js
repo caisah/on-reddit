@@ -22,10 +22,14 @@ const setType = ({ text, color }) => {
   browser.browserAction.setBadgeBackgroundColor({ color })
 }
 
-const setFromData = data => {}
+const setFromEntries = entries => {
+  const text = entries.length
+
+  setType(types.custom(text))
+}
 
 export default {
   types,
   setType,
-  setFromData
+  setFromEntries
 }

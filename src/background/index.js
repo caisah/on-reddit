@@ -24,10 +24,8 @@ const handleTabUpdate = async (cache, id, changeInfo, tab) => {
 
   const request = new ApiRequest(tabInfo)
   cache.add(request.execute())
-  const data = await cache.getCurrent()
-
-  badge.setFromData(data)
-  // todo: set badge
+  const entries = await cache.getCurrent()
+  badge.setFromEntries(entries)
 }
 
 const handleTabActivation = (cache, { id }) => {
@@ -36,8 +34,11 @@ const handleTabActivation = (cache, { id }) => {
   cache.setActiveId(id)
 }
 
-const init = () => {
+const startup = () => {
+  logger.log('Started up')
+
   badge.setType(badge.types.initial)
+
   const loggingOption = new Option(LOGGING)
   const requestsOnDemandOption = new Option(ON_DEMAND_REQESTS)
   const cache = new Cache()
@@ -54,7 +55,4 @@ const init = () => {
 }
 
 // When the extensions starts up
-browser.runtime.onStartup = () => {
-  logger.log('Starting up')
-  init()
-}
+startup()

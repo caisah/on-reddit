@@ -13,7 +13,7 @@ const POPUP = {
   input: 'src/popup/index.js',
   output: {
     format: 'iife',
-    file: 'build/addon/script.js'
+    file: 'build/addon/popup.js'
   },
   name: 'script',
   plugins: [resolve()]

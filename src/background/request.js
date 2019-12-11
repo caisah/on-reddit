@@ -1,6 +1,6 @@
 import logger from './logger'
 import getTimeString from './time'
-import { REDDIT_API_URL, REQUEST_ERROR_TYPES, ENTRIES } from './constants'
+import { REDDIT_API_URL, REQUEST_ERROR_TYPES, REQUEST_TYPES } from './constants'
 
 class Request {
   constructor (url, tab) {
@@ -10,7 +10,7 @@ class Request {
 
   formatData (json) {
     if (json.data && json.data.children) {
-      const data = json.data.children.map(child => ({
+      const entries = json.data.children.map(child => ({
         subredditName: `/r/${child.data.subreddit}`,
         subredditFullLink: `https://reddit.com/r/${child.data.subreddit}`,
         link: child.data.permalink,
@@ -25,7 +25,7 @@ class Request {
         commentsNumber: child.data.num_comments
       }))
 
-      return { type: ENTRIES, data }
+      return { type: REQUEST_TYPES.ENTRIES, entries }
     }
 
     return json
@@ -42,7 +42,8 @@ class Request {
           logger.log(`Json parse error: ${err} for url ${this.url}`)
 
           return {
-            type: REQUEST_ERROR_TYPES.JSON_PARSE,
+            type: REQUEST_TYPES.ERROR,
+            subType: REQUEST_ERROR_TYPES.JSON_PARSE,
             err
           }
         }
@@ -54,7 +55,11 @@ class Request {
     } catch (err) {
       logger.log(`Network error: ${err} for url ${this.url}`)
 
-      return { type: REQUEST_ERROR_TYPES.NETWORK, err }
+      return {
+        type: REQUEST_TYPES.ERROR,
+        subType: REQUEST_ERROR_TYPES.NETWORK,
+        err
+      }
     }
   }
 

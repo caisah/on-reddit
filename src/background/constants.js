@@ -6,4 +6,7 @@ export const REQUEST_ERROR_TYPES = {
   NETWORK: 'network'
 }
 
-export const ENTRIES = 'entries'
+export const REQUEST_TYPES = {
+  ENTRIES: 'entries',
+  ERROR: 'requestError'
+}
