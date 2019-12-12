@@ -3,6 +3,7 @@ class TabInfo {
     this.id = tab.id
     this.newUrl = changeInfo && changeInfo.url
     this.url = this.newUrl || tab.url
+    this.active = tab.active
   }
 
   urlChanged () {
@@ -11,6 +12,10 @@ class TabInfo {
 
   urlNotValid () {
     return this.url.startsWith('http')
+  }
+
+  isActive () {
+    return Boolean(this.active)
   }
 }
 

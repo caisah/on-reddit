@@ -44,6 +44,8 @@ const logger = {
    * @param {boolean} enableLogging - Flag used to control loggin
    */
   toggleLogging (enableLogging) {
+    log('Toggling logging', enableLogging)
+
     if (enableLogging) {
       log = loggingFn
     } else {

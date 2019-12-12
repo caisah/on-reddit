@@ -25,8 +25,12 @@ class Request {
         commentsNumber: child.data.num_comments
       }))
 
+      logger.log('Entries formatted', entries)
+
       return { type: REQUEST_TYPES.ENTRIES, entries }
     }
+
+    logger.log('Entries not formatted', json)
 
     return json
   }

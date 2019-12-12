@@ -1,3 +1,5 @@
+import logger from './logger'
+
 const types = {
   notAvailable: {
     color: '#000000',
@@ -18,11 +20,15 @@ const types = {
 }
 
 const setType = ({ text, color }) => {
+  logger.log('Setting badge', { text, color })
+
   browser.browserAction.setBadgeText({ text })
   browser.browserAction.setBadgeBackgroundColor({ color })
 }
 
 const setFromEntries = entries => {
+  logger.log('Setting badge', entries)
+
   const text = entries.length
 
   setType(types.custom(text))
