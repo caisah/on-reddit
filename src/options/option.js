@@ -20,7 +20,7 @@ class Option {
 
   enableAutomaticSave () {
     this.element.addEventListener('input', ({ target: { checked } }) => {
-      this.storage.setData(checked)
+      this.storage.setValueAsync(checked)
     })
   }
 
