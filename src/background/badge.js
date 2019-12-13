@@ -1,41 +1,56 @@
 import logger from './logger'
+import { REQUEST_TYPES } from './constants'
 
 const types = {
-  notAvailable: {
+  [REQUEST_TYPES.NOT_AVAILABLE]: {
     color: '#000000',
     text: 'N/A'
   },
-  error: {
+  [REQUEST_TYPES.ERROR]: {
     color: '#921756',
     text: 'Err'
   },
-  initial: {
-    color: '#6278A7',
-    text: '0'
-  },
-  custom: text => ({
-    color: '#6278A7',
-    text: text.toString()
-  })
+  [REQUEST_TYPES.ENTRIES] (number) {
+    return {
+      color: '#6278A7',
+      text: number.toString()
+    }
+  }
 }
 
-const setType = ({ text, color }) => {
-  logger.log('Setting badge', { text, color })
-
+const setTextAndColor = ({ text, color }) => {
   browser.browserAction.setBadgeText({ text })
   browser.browserAction.setBadgeBackgroundColor({ color })
 }
 
-const setFromEntries = entries => {
-  logger.log('Setting badge', entries)
+const set = data => {
+  if (!data) {
+    const textAndColor = types[REQUEST_TYPES.NOT_AVAILABLE]
 
-  const text = entries.length
+    logger.log('Setting badge from', textAndColor)
+    setTextAndColor(textAndColor)
+    return
+  }
 
-  setType(types.custom(text))
+  logger.log('Setting badge from', data)
+  switch (data.type) {
+    case REQUEST_TYPES.ENTRIES: {
+      setTextAndColor(types[REQUEST_TYPES.ENTRIES](data.entries.length))
+      return
+    }
+
+    case REQUEST_TYPES.ERROR:
+    case REQUEST_TYPES.NOT_AVAILABLE: {
+      setTextAndColor(types[data.type])
+      return
+    }
+
+    default: {
+      logger.log('Not setting text and color. This must be an error.')
+    }
+  }
 }
 
 export default {
-  types,
-  setType,
-  setFromEntries
+  set
 }

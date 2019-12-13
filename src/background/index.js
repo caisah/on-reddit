@@ -1,5 +1,5 @@
 import { LOGGING, ON_DEMAND_REQESTS } from '../common/constants'
-import ApiRequest from './request'
+import ApiRequest from './api-request'
 import handleConnect from './connection'
 import logger from './logger'
 import Option from './option'
@@ -7,42 +7,55 @@ import Cache from './cache'
 import TabInfo from './tab-info'
 import badge from './badge'
 
-const handleTabActivation = (cache, { tabId }) => {
-  logger.log('Activated tab', tabId)
+const updateCacheAndBadge = async (cache, tabInfo) => {
+  const request = new ApiRequest(tabInfo)
+  cache.add(request.execute())
+
+  const data = await cache.getCurrent()
+  badge.set(data)
+}
+
+const handleTabActivation = async (cache, tab) => {
+  const { tabId } = tab
+  logger.log('Tab activated', tabId)
+
+  await updateCacheAndBadge(cache, tab)
 
   cache.setActiveId(tabId)
+}
+
+const createTabInfo = (tab, changeInfo) => {
+  const tabInfo = new TabInfo(tab, changeInfo)
+
+  logger.log('Created tab', tabInfo.tabId, tabInfo.url)
+
+  return tabInfo
 }
 
 const handleTabUpdate = async (cache, id, changeInfo, tab) => {
   logger.log('Tab updated')
 
-  const tabInfo = new TabInfo(tab, changeInfo)
+  const tabInfo = createTabInfo(tab, changeInfo)
 
-  if (tabInfo.isActive()) {
-    handleTabActivation(cache, { tabId: tabInfo.id })
-  }
-
-  if (!tabInfo.urlChanged()) {
-    logger.log('Url did not change', tabInfo.url)
+  if (tabInfo.discarded) {
+    cache.removeId(id)
+    logger.log('Tab discarded', id)
     return
   }
 
-  if (!tabInfo.urlNotValid()) {
-    logger.log('Tab url not valid', tabInfo.url)
-
-    badge.setType(badge.types.error)
+  if (!tabInfo.newUrl) {
+    logger.log('Url did not change', id)
     return
   }
 
-  const request = new ApiRequest(tabInfo)
-  cache.add(request.execute())
-  const entries = await cache.getCurrent()
-  badge.setFromEntries(entries)
+  // This is executed when the url changes
+  if (tabInfo.active) {
+    logger.log('Activating tab on update')
+    handleTabActivation(cache, tabInfo)
+  }
 }
 
 const startup = async () => {
-  badge.setType(badge.types.initial)
-
   // Object that holds all the data fetch promises
   const cache = new Cache()
 

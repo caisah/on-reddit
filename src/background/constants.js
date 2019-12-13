@@ -1,5 +1,3 @@
-export const REDDIT_API_URL = 'https://www.reddit.com/api/info.json?url='
-
 export const REQUEST_ERROR_TYPES = {
   JSON_PARSE: 'jsonParse',
   STATUS_CODE: 'statusCode',
@@ -8,5 +6,6 @@ export const REQUEST_ERROR_TYPES = {
 
 export const REQUEST_TYPES = {
   ENTRIES: 'entries',
-  ERROR: 'requestError'
+  ERROR: 'requestError',
+  NOT_AVAILABLE: 'notAvailable'
 }

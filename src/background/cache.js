@@ -18,11 +18,11 @@ class Cache {
   getCurrent () {
     logger.log('Getting active promise from cache', this.activeId)
 
-    return this.store(this.activeId)
+    return this.store[this.activeId]
   }
 
   setActiveId (id) {
-    logger.log('Setting active promise', id)
+    logger.log('Setting active tab', id)
 
     this.activeId = id
   }
