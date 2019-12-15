@@ -31,19 +31,19 @@ class ApiRequest {
           }))
         : []
 
-      logger.log('Entries formatted', entries)
+      logger.log('[request] Entries formatted', entries)
 
       return { type: REQUEST_TYPES.ENTRIES, entries }
     }
 
-    logger.log('Entries not formatted', requestData)
+    logger.log('[request] No data to format', requestData)
 
     return requestData
   }
 
   async makeRequest () {
     if (!this.isValidUrl) {
-      logger.log('Url not valid. Not making the request')
+      logger.log('[request] Url not valid. Not making the request')
 
       return {
         type: REQUEST_TYPES.NOT_AVAILABLE
@@ -57,7 +57,7 @@ class ApiRequest {
         try {
           return res.json()
         } catch (err) {
-          logger.log(`Json parse error: ${err} for url ${this.url}`)
+          logger.log('[request] Json parse error', err, this.url)
 
           return {
             type: REQUEST_TYPES.ERROR,
@@ -66,12 +66,12 @@ class ApiRequest {
           }
         }
       } else {
-        logger.log(`Status code error: ${res.status} for url ${this.url}`)
+        logger.log('[request] Status code error', res.status, this.url)
 
         return { type: REQUEST_ERROR_TYPES.STATUS_CODE, status: res.status }
       }
     } catch (err) {
-      logger.log(`Network error: ${err} for url ${this.url}`)
+      logger.log('[request] Network error', err, this.url)
 
       return {
         type: REQUEST_TYPES.ERROR,

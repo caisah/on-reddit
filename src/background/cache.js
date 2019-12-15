@@ -1,31 +1,46 @@
+import ApiRequest from './api-request'
 import logger from './logger'
 
-class Cache {
-  constructor () {
-    this.store = {}
-  }
+const store = {}
 
-  add (id, promise) {
-    logger.log('Adding promise to cache', id)
+const storeRequest = async tabInfo => {
+  const { tabId: id } = tabInfo
+  const request = new ApiRequest(tabInfo)
+  const data = await request.execute()
 
-    this.store[id] = promise
-  }
+  store[id] = data
 
-  removeId (id) {
-    this.store[id] = undefined
-  }
+  logger.log('[cache] Set', id, data)
 
-  getCurrent () {
-    logger.log('Getting active promise from cache', this.activeId)
-
-    return this.store[this.activeId]
-  }
-
-  setActiveId (id) {
-    logger.log('Setting active tab', id)
-
-    this.activeId = id
-  }
+  return data
 }
 
-export default Cache
+const getTabData = tabInfo => {
+  const { tabId: id } = tabInfo
+
+  if (store[id]) {
+    logger.log('[cache] Already cached', id)
+
+    return store[id]
+  }
+
+  logger.log('[cache] Setting tab', id)
+
+  return storeRequest(tabInfo)
+}
+
+const getTabDataWithNewUrl = tabInfo => {
+  logger.log('[cache] Resetting tab', tabInfo.id)
+
+  return storeRequest(tabInfo)
+}
+
+const removeId = id => {
+  delete this.store[id]
+}
+
+export default {
+  getTabData,
+  getTabDataWithNewUrl,
+  removeId
+}

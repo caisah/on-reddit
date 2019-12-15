@@ -27,12 +27,12 @@ const set = data => {
   if (!data) {
     const textAndColor = types[REQUEST_TYPES.NOT_AVAILABLE]
 
-    logger.log('Setting badge from', textAndColor)
+    logger.log('[badge] No data. Setting', textAndColor)
     setTextAndColor(textAndColor)
     return
   }
 
-  logger.log('Setting badge from', data)
+  logger.log('[badge] Setting', data)
   switch (data.type) {
     case REQUEST_TYPES.ENTRIES: {
       setTextAndColor(types[REQUEST_TYPES.ENTRIES](data.entries.length))
@@ -46,7 +46,7 @@ const set = data => {
     }
 
     default: {
-      logger.log('Not setting text and color. This must be an error.')
+      logger.log('[badge] Not setting text and color. This must be an error.')
     }
   }
 }

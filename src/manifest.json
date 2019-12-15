@@ -9,6 +9,7 @@
   },
 
   "permissions": [
+    "*://www.reddit.com/*",
     "*://reddit.com/*",
     "tabs",
     "webRequest",
