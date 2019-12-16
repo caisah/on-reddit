@@ -6,21 +6,26 @@ import cache from './cache'
 import getTabInfo from './tab-info'
 import badge from './badge'
 
-const cacheAndSetBadge = async (tab, method) => {
-  if (cache.isBeingSet) {
-    logger.log('[cache and set] In progress')
-    return
+const setBadge = async id => {
+  logger.log('[set badge] Trying to set badge')
+  const activeTab = cache.getActiveTab()
+
+  if (id === activeTab) {
+    logger.log('[set badge] Setting')
+
+    const data = await cache.get(id)
+    badge.set(data)
   }
-
-  const data = await method(tab)
-
-  logger.log('[cache and set] Done', tab.tabId, data)
-  badge.set(data)
+  logger.log('[set badge] Not set. Different active tab')
 }
 
-const handleTabActivation = tab => {
+const handleTabActivation = async tab => {
   logger.log('[tab activation] Tab activated', tab)
-  cacheAndSetBadge(tab, cache.getTabData)
+  const { tabId } = tab
+
+  cache.setActiveTab(tabId)
+  await cache.storeData(tab)
+  setBadge(tabId)
 }
 
 const handleTabUpdate = async (id, changeInfo, tab) => {
@@ -33,14 +38,17 @@ const handleTabUpdate = async (id, changeInfo, tab) => {
   }
 
   if (tabInfo.active) {
+    cache.setActiveTab(id)
+
     if (tabInfo.urlChanged) {
-      logger.log('[tab update] Url changed', tabInfo.newUrl)
-      cacheAndSetBadge(tabInfo, cache.getTabDataWithNewUrl)
-      return
+      logger.log('[tab update] Url changed', tabInfo.tabId, tabInfo.newUrl)
+      await cache.storeNewData(tabInfo)
+    } else {
+      logger.log('[tab update] Caching tab', tabInfo.tabId, tabInfo)
+      await cache.storeData(tabInfo)
     }
 
-    logger.log('[tab update] Caching tab', tabInfo.tabId, tabInfo)
-    cacheAndSetBadge(tabInfo, cache.getTabData)
+    setBadge(id)
   }
 }
 

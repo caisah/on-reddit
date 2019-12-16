@@ -1,6 +1,6 @@
 const tabInfo = (tab, changeInfo) => {
-  let newUrl = false
-  let discarded = false
+  let newUrl
+  let discarded
 
   if (changeInfo) {
     newUrl = changeInfo.url
