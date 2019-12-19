@@ -1,26 +1,27 @@
 import { MESSAGES, PORT_NAME } from '../common/constants'
 import logger from './logger'
+import cache from './cache'
 
 let connection
 
-const handleIncomingMessage = async (cache, msg) => {
+const handleIncomingMessage = async msg => {
   if (msg === MESSAGES.GET_DATA) {
-    const data = await cache.getCurrent()
+    const data = await cache.get(cache.getActiveTabId())
 
-    logger.log('Sending message to popup', data)
+    logger.log('[connection] Sending message to popup', data)
 
     connection.postMessage(data)
   }
 }
 
 // Store
-const handleConnect = (cache, port) => {
+const handleConnect = port => {
   if (port.name === PORT_NAME) {
-    logger.log('Initiating connection with popup script')
+    logger.log('[connection] Initiating connection with popup script')
 
     connection = port
 
-    connection.onMessage.addListener(handleIncomingMessage.bind(null, cache))
+    connection.onMessage.addListener(handleIncomingMessage)
   }
 }
 

@@ -2,7 +2,7 @@ import ApiRequest from './api-request'
 import logger from './logger'
 
 const cache = {}
-let activeTab
+let activeTabId
 
 const store = async tabInfo => {
   const { tabId: id } = tabInfo
@@ -43,24 +43,24 @@ const get = id => {
 }
 
 const removeId = id => {
-  delete this.store[id]
+  delete cache[id]
 }
 
-const setActiveTab = id => {
+const setActiveTabId = id => {
   logger.log('[cache] Setting current active tab', id)
 
-  activeTab = id
+  activeTabId = id
 }
 
-const getActiveTab = id => {
-  return activeTab
+const getActiveTabId = id => {
+  return activeTabId
 }
 
 export default {
   get,
   storeData,
   storeNewData,
-  setActiveTab,
-  getActiveTab,
+  setActiveTabId,
+  getActiveTabId,
   removeId
 }

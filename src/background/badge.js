@@ -1,5 +1,5 @@
 import logger from './logger'
-import { REQUEST_TYPES } from './constants'
+import { REQUEST_TYPES } from '../common/constants'
 
 const types = {
   [REQUEST_TYPES.NOT_AVAILABLE]: {

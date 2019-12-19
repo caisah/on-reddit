@@ -1,6 +1,6 @@
 import logger from './logger'
 import getTimeString from './time'
-import { REQUEST_ERROR_TYPES, REQUEST_TYPES } from './constants'
+import { REQUEST_ERROR_TYPES, REQUEST_TYPES } from '../common/constants'
 
 export const REDDIT_API_URL = 'https://www.reddit.com/api/info.json?url='
 

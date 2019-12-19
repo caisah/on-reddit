@@ -8,9 +8,9 @@ import badge from './badge'
 
 const setBadge = async id => {
   logger.log('[set badge] Trying to set badge')
-  const activeTab = cache.getActiveTab()
+  const activeTabId = cache.getActiveTabId()
 
-  if (id === activeTab) {
+  if (id === activeTabId) {
     logger.log('[set badge] Setting')
 
     const data = await cache.get(id)
@@ -23,7 +23,7 @@ const handleTabActivation = async tab => {
   logger.log('[tab activation] Tab activated', tab)
   const { tabId } = tab
 
-  cache.setActiveTab(tabId)
+  cache.setActiveTabId(tabId)
   await cache.storeData(tab)
   setBadge(tabId)
 }
@@ -38,7 +38,7 @@ const handleTabUpdate = async (id, changeInfo, tab) => {
   }
 
   if (tabInfo.active) {
-    cache.setActiveTab(id)
+    cache.setActiveTabId(id)
 
     if (tabInfo.urlChanged) {
       logger.log('[tab update] Url changed', tabInfo.tabId, tabInfo.newUrl)

@@ -26,7 +26,7 @@ const row = entry => `
         <a class="text-link-comments" href="${entry.fullLink}">${entry.commentsNumber} comments</a>
       </p>
     </div>
-  </li>`;
+  </li>`
 
 const submitBtn = url => `
 <div class="submit-btn-container">
@@ -36,16 +36,16 @@ const submitBtn = url => `
     </button>
   </a>
 </div>
-`;
+`
 
 const html = data => {
   if (!data.entries.length) {
-    return submitBtn(data.url);
+    return submitBtn(data.url)
   }
 
-  const htmlEntries = data.entries.map(row);
+  const htmlEntries = data.entries.map(row)
 
-  return `<ul class="container">${htmlEntries}</ul>`;
-};
+  return `<ul class="container">${htmlEntries}</ul>`
+}
 
-export default html;
+export default html
