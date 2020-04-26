@@ -21,9 +21,10 @@ const types = {
 const setTextAndColor = ({ text, color }) => {
   browser.browserAction.setBadgeText({ text })
   browser.browserAction.setBadgeBackgroundColor({ color })
+  browser.browserAction.setBadgeTextColor({ color: '#ffffff' })
 }
 
-const set = data => {
+const set = ({ data, type }) => {
   if (!data) {
     const textAndColor = types[REQUEST_TYPES.NOT_AVAILABLE]
 
@@ -33,7 +34,7 @@ const set = data => {
   }
 
   logger.log('[badge] Setting', data)
-  switch (data.type) {
+  switch (type) {
     case REQUEST_TYPES.ENTRIES: {
       setTextAndColor(types[REQUEST_TYPES.ENTRIES](data.entries.length))
       return

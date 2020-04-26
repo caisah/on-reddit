@@ -20,10 +20,9 @@ src:url(https://www.redditstatic.com/desktop2x/fonts/IBMPlexSans/Bold-875de50475
 
 
 body {
-  font-family: IBMPlexSans, Helvetica Neue, Segoe UI, Helvetica, Verdana, Arial, sans-serif;
+  font-family: IBMPlexSans, Arial, sans-serif;
   margin: 5px 5px 5px 0;
   min-height: 70px;
-  max-height: 200px;
   padding: 0;
   width: 470px;
 }
@@ -44,11 +43,29 @@ a:visited {
   color: #551a8b;
 }
 
-.nothing {
-  font-size: large;
-  font-weight: bold;
-  line-height: 70px;
-  text-align: center;
+.error-container {
+  background-size: cover;
+  display: flex;
+  width: 100%;
+  height: 200px;
+}
+
+.not-available {
+  background-image: url('https://www.redditstatic.com/reddit404c.png');
+  color: #000;
+}
+
+.fail {
+  background-image: url('https://www.redditstatic.com/reddit404a.png');
+}
+
+.loading {
+  align-items: center;
+  display: flex;
+  font-size: 18px;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
 }
 
 .submit-btn-container {
@@ -59,12 +76,20 @@ a:visited {
 }
 
 .submit-btn {
-  background-color: #4d4d4d;
-  border: 1px outset gray;
-  color: #fff;
+  background-color: rgb(215, 218, 220);
+  border-radius: 4px;
+  border: 0;
+  color: rgb(26, 26, 27);
   cursor: pointer;
-  padding: 10px 25px;
+  font-size: 12px;
+  font-weight: 700;
+  height: 32px;
   text-align: center;
+  text-transform: uppercase;
+  width: 82px;
+}
+.submit-btn:hover {
+  background-color: rgb(235, 236, 237);
 }
 
 .row {

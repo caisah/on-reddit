@@ -21,16 +21,16 @@
   "author": "Vlad Piersec",
   "license": "GPL-3.0",
   "devDependencies": {
-    "babel-eslint": "^10.0.3",
+    "babel-eslint": "^10.1.0",
     "install": "^0.13.0",
-    "npm": "^6.13.2",
-    "rollup": "^0.50.1",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "standard": "^14.3.1",
+    "npm": "^6.14.4",
+    "rollup": "^2.7.2",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "standard": "^14.3.3",
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "dompurify": "^1.0.11"
+    "dompurify": "^2.0.10"
   },
   "standard": {
     "envs": [

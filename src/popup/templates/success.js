@@ -32,20 +32,18 @@ const submitBtn = url => `
 <div class="submit-btn-container">
   <a href="https://www.reddit.com/submit?url=${url}">
     <button class="submit-btn">
-      Submit
+      Post
     </button>
   </a>
 </div>
 `
 
-const html = data => {
-  if (!data.entries.length) {
-    return submitBtn(data.url)
+const html = ({ data }) => {
+  if (data.entries && data.entries.length) {
+    return `<ul class="container">${data.entries.map(row)}</ul>`
   }
 
-  const htmlEntries = data.entries.map(row)
-
-  return `<ul class="container">${htmlEntries}</ul>`
+  return submitBtn(data.url)
 }
 
 export default html

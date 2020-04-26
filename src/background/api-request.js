@@ -6,7 +6,8 @@ export const REDDIT_API_URL = 'https://www.reddit.com/api/info.json?url='
 
 class ApiRequest {
   constructor ({ url }) {
-    this.url = `${REDDIT_API_URL}${encodeURIComponent(url)}`
+    this.url = url
+    this.apiUrl = `${REDDIT_API_URL}${encodeURIComponent(url)}`
     this.isValidUrl = url && url.startsWith('http')
   }
 
@@ -33,7 +34,10 @@ class ApiRequest {
 
       logger.log('[request] Entries formatted', entries)
 
-      return { type: REQUEST_TYPES.ENTRIES, entries }
+      return {
+        type: REQUEST_TYPES.ENTRIES,
+        data: { entries, url: this.url }
+      }
     }
 
     logger.log('[request] No data to format', requestData)
@@ -51,13 +55,13 @@ class ApiRequest {
     }
 
     try {
-      const res = await fetch(this.url)
+      const res = await fetch(this.apiUrl)
 
       if (res.status === 200) {
         try {
           return res.json()
         } catch (err) {
-          logger.log('[request] Json parse error', err, this.url)
+          logger.log('[request] Json parse error', err, this.apiUrl)
 
           return {
             type: REQUEST_TYPES.ERROR,
@@ -66,12 +70,12 @@ class ApiRequest {
           }
         }
       } else {
-        logger.log('[request] Status code error', res.status, this.url)
+        logger.log('[request] Status code error', res.status, this.apiUrl)
 
         return { type: REQUEST_ERROR_TYPES.STATUS_CODE, status: res.status }
       }
     } catch (err) {
-      logger.log('[request] Network error', err, this.url)
+      logger.log('[request] Network error', err, this.apiUrl)
 
       return {
         type: REQUEST_TYPES.ERROR,
