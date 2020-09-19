@@ -5,8 +5,7 @@ const BACKGROUND = {
   output: {
     format: 'iife',
     file: 'build/addon/background.js'
-  },
-  name: 'background'
+  }
 }
 
 const POPUP = {
@@ -15,7 +14,6 @@ const POPUP = {
     format: 'iife',
     file: 'build/addon/popup.js'
   },
-  name: 'script',
   plugins: [resolve()]
 }
 
@@ -24,8 +22,7 @@ const OPTIONS = {
   output: {
     format: 'iife',
     file: 'build/addon/options.js'
-  },
-  name: 'options'
+  }
 }
 
 export default [BACKGROUND, POPUP, OPTIONS]

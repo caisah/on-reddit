@@ -1,3 +1,3 @@
-import renderPageOnLoad from './fetcher'
+import renderPageOnLoad from './renderer'
 
 renderPageOnLoad()

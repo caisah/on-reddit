@@ -1,6 +1,6 @@
 import logger from './logger'
 import getTimeString from './time'
-import { REQUEST_ERROR_TYPES, REQUEST_TYPES } from '../common/constants'
+import { REQUEST_ERROR_TYPE, RESPONSE_TYPE } from '../common/constants'
 
 export const REDDIT_API_URL = 'https://www.reddit.com/api/info.json?url='
 
@@ -35,7 +35,7 @@ class ApiRequest {
       logger.log('[request] Entries formatted', entries)
 
       return {
-        type: REQUEST_TYPES.ENTRIES,
+        type: RESPONSE_TYPE.ENTRIES,
         data: { entries, url: this.url }
       }
     }
@@ -50,7 +50,7 @@ class ApiRequest {
       logger.log('[request] Url not valid. Not making the request')
 
       return {
-        type: REQUEST_TYPES.NOT_AVAILABLE
+        type: RESPONSE_TYPE.NOT_AVAILABLE
       }
     }
 
@@ -64,22 +64,22 @@ class ApiRequest {
           logger.log('[request] Json parse error', err, this.apiUrl)
 
           return {
-            type: REQUEST_TYPES.ERROR,
-            subType: REQUEST_ERROR_TYPES.JSON_PARSE,
+            type: RESPONSE_TYPE.ERROR,
+            errorType: REQUEST_ERROR_TYPE.JSON_PARSE,
             err
           }
         }
       } else {
         logger.log('[request] Status code error', res.status, this.apiUrl)
 
-        return { type: REQUEST_ERROR_TYPES.STATUS_CODE, status: res.status }
+        return { type: REQUEST_ERROR_TYPE.STATUS_CODE, status: res.status }
       }
     } catch (err) {
       logger.log('[request] Network error', err, this.apiUrl)
 
       return {
-        type: REQUEST_TYPES.ERROR,
-        subType: REQUEST_ERROR_TYPES.NETWORK,
+        type: RESPONSE_TYPE.ERROR,
+        errorType: REQUEST_ERROR_TYPE.NETWORK,
         err
       }
     }

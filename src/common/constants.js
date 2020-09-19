@@ -1,4 +1,26 @@
 /**
+ * @typedef {Object} Port - Connection between contexts
+ * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/Port
+ *
+ * @property {string} name
+ * @property {Function} disconnect
+ * @property {Object} error
+ * @property {Object} onDisconnect
+ * @property {Object} onMessage
+ * @property {Function} postMessage
+ * @property {Object} sender
+ */
+
+/**
+ * @typedef {Object} Response - The response from the background script.
+ *
+ * @property {RESPONSE_TYPE} type - The type of the response.
+ * @property {REQUEST_ERROR_TYPE} [errorType] - The error type if any.
+ * @property {Object} [err] - The error if any.
+ * @property {Object} [data] - The data object.
+ */
+
+/**
  * Attribute for config OPTIONS.
  * If requests are made on demand or not.
  *
@@ -17,7 +39,7 @@ export const ON_DEMAND_REQESTS = 'ON_DEMAND_REQESTS'
 export const LOGGING = 'LOGGING'
 
 /**
- * @typedef {Object} OPTIONS - Options boject
+ * @typedef {Object} OPTIONS - Options object
  * @property {boolean} ON_DEMAND_REQESTS
  * @property {boolean} LOGGING
  */
@@ -64,14 +86,32 @@ export const MESSAGES = {
   GET_DATA: 'get:data'
 }
 
-export const REQUEST_ERROR_TYPES = {
-  JSON_PARSE: 'jsonParse',
-  STATUS_CODE: 'statusCode',
-  NETWORK: 'network'
+/**
+ * Enum for the response types.
+ *
+ * @readonly
+ * @enum {string}
+ */
+export const RESPONSE_TYPE = {
+  /* The response contains entries. */
+  ENTRIES: 'entries',
+  /* The response contains an error, so no entries. */
+  ERROR: 'requestError',
+  /* The response is not available because no request could be executed. */
+  NOT_AVAILABLE: 'notAvailable'
 }
 
-export const REQUEST_TYPES = {
-  ENTRIES: 'entries',
-  ERROR: 'requestError',
-  NOT_AVAILABLE: 'notAvailable'
+/**
+ * Enum for the error types {RESPONSE_TYPE.ERROR}
+ *
+ * @readonly
+ * @enum {string}
+ */
+export const REQUEST_ERROR_TYPE = {
+  /* The response could not be parsed. */
+  JSON_PARSE: 'jsonParse',
+  /* The server responded with a status code different than 2xx. */
+  STATUS_CODE: 'statusCode',
+  /* There was a network error. */
+  NETWORK: 'network'
 }

@@ -23,14 +23,13 @@
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "install": "^0.13.0",
-    "npm": "^6.14.4",
-    "rollup": "^2.7.2",
+    "rollup": "^2.27.1",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "standard": "^14.3.3",
+    "standard": "^14.3.4",
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "dompurify": "^2.0.10"
+    "dompurify": "2.0.16"
   },
   "standard": {
     "envs": [

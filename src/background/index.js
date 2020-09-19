@@ -60,7 +60,7 @@ const startup = async () => {
   const requestsOnDemandOption = new Option(ON_DEMAND_REQESTS)
 
   // Get the initial values for the options from storage.local
-  const [shouldLog, shouldRequestOnDemand] = await Promise.resolve([
+  let [shouldLog, shouldRequestOnDemand] = await Promise.resolve([
     loggingOption.getValueAsync(),
     requestsOnDemandOption.getValueAsync()
   ])
@@ -71,7 +71,8 @@ const startup = async () => {
   // Toggle logging if the value from storage.local changes
   loggingOption.subscribeToChanges(logger.toggleLogging)
 
-  requestsOnDemandOption.subscribeToChanges(() => {})
+  requestsOnDemandOption.subscribeToChanges(() => {
+  })
 
   // Listen for the messages from the popup script
   browser.runtime.onConnect.addListener(handleConnect)

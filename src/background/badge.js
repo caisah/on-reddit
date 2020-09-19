@@ -1,16 +1,16 @@
 import logger from './logger'
-import { REQUEST_TYPES } from '../common/constants'
+import { RESPONSE_TYPE } from '../common/constants'
 
 const types = {
-  [REQUEST_TYPES.NOT_AVAILABLE]: {
+  [RESPONSE_TYPE.NOT_AVAILABLE]: {
     color: '#000000',
     text: 'N/A'
   },
-  [REQUEST_TYPES.ERROR]: {
+  [RESPONSE_TYPE.ERROR]: {
     color: '#921756',
     text: 'Err'
   },
-  [REQUEST_TYPES.ENTRIES] (number) {
+  [RESPONSE_TYPE.ENTRIES] (number) {
     return {
       color: '#6278A7',
       text: number.toString()
@@ -26,7 +26,7 @@ const setTextAndColor = ({ text, color }) => {
 
 const set = ({ data, type }) => {
   if (!data) {
-    const textAndColor = types[REQUEST_TYPES.NOT_AVAILABLE]
+    const textAndColor = types[RESPONSE_TYPE.NOT_AVAILABLE]
 
     logger.log('[badge] No data. Setting', textAndColor)
     setTextAndColor(textAndColor)
@@ -35,13 +35,13 @@ const set = ({ data, type }) => {
 
   logger.log('[badge] Setting', data)
   switch (type) {
-    case REQUEST_TYPES.ENTRIES: {
-      setTextAndColor(types[REQUEST_TYPES.ENTRIES](data.entries.length))
+    case RESPONSE_TYPE.ENTRIES: {
+      setTextAndColor(types[RESPONSE_TYPE.ENTRIES](data.entries.length))
       return
     }
 
-    case REQUEST_TYPES.ERROR:
-    case REQUEST_TYPES.NOT_AVAILABLE: {
+    case RESPONSE_TYPE.ERROR:
+    case RESPONSE_TYPE.NOT_AVAILABLE: {
       setTextAndColor(types[data.type])
       return
     }
