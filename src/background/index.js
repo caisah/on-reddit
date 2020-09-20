@@ -1,6 +1,6 @@
 import { LOGGING, ON_DEMAND_REQESTS } from '../common/constants'
 import handleConnect from './connection'
-import logger from './logger'
+import logger from '../common/logger'
 import Option from './option'
 import cache from './cache'
 import getTabInfo from './tab-info'
@@ -60,16 +60,16 @@ const startup = async () => {
   const requestsOnDemandOption = new Option(ON_DEMAND_REQESTS)
 
   // Get the initial values for the options from storage.local
-  let [shouldLog, shouldRequestOnDemand] = await Promise.resolve([
+  const [shouldLog, shouldRequestOnDemand] = await Promise.resolve([
     loggingOption.getValueAsync(),
     requestsOnDemandOption.getValueAsync()
   ])
 
   // Enforce logging option
-  logger.toggleLogging(shouldLog)
+  logger.toggleLogging(shouldLog, 'background')
 
   // Toggle logging if the value from storage.local changes
-  loggingOption.subscribeToChanges(logger.toggleLogging)
+  loggingOption.subscribeToChanges(logger.toggleLogging, 'background')
 
   requestsOnDemandOption.subscribeToChanges(() => {
   })

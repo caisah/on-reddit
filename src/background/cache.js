@@ -1,5 +1,5 @@
 import ApiRequest from './api-request'
-import logger from './logger'
+import logger from '../common/logger'
 
 const cache = {}
 let activeTabId

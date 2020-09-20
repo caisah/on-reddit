@@ -1,4 +1,4 @@
-import logger from './logger'
+import logger from '../common/logger'
 import { RESPONSE_TYPE } from '../common/constants'
 
 const types = {

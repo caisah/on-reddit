@@ -1,8 +1,8 @@
 import BasicStorage from '../common/storage'
-import logger from './logger'
+import logger from '../common/logger'
 
 class Storage extends BasicStorage {
-  subscribeToChanges (listener) {
+  subscribeToChanges (listener, ...args) {
     browser.storage.onChanged.addListener((changes, area) => {
       if (area === 'local') {
         for (const key in changes) {
@@ -10,7 +10,7 @@ class Storage extends BasicStorage {
             const newValue = changes[key].newValue
 
             logger.log(`Storage changed ${key} ${newValue}`)
-            listener(newValue)
+            listener(newValue, ...args)
 
             return
           }

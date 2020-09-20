@@ -1,4 +1,4 @@
-import logger from './logger'
+import logger from '../common/logger'
 import getTimeString from './time'
 import { REQUEST_ERROR_TYPE, RESPONSE_TYPE } from '../common/constants'
 

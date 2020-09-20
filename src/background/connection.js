@@ -1,5 +1,5 @@
 import { MESSAGES, PORT_NAME } from '../common/constants'
-import logger from './logger'
+import logger from '../common/logger'
 import cache from './cache'
 
 /**
@@ -16,7 +16,7 @@ const handleIncomingMessage = async msg => {
   if (msg === MESSAGES.GET_DATA) {
     const data = await cache.get(cache.getActiveTabId())
 
-    logger.log('[port] Sending message to popup', data)
+    logger.log('[connection] Sending message to popup', data)
 
     port.postMessage(data)
   }
@@ -30,7 +30,7 @@ const handleIncomingMessage = async msg => {
  */
 const handleConnect = p => {
   if (p.name === PORT_NAME) {
-    logger.log('[port] Initiating connection with popup script')
+    logger.log('[connection] Initiating connection with popup script')
 
     port = p
 

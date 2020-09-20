@@ -1,3 +1,7 @@
+/**
+ * @typedef {import('../../common/constants').Response} Response
+ */
+
 const row = entry => `
   <li class="row">
 
@@ -38,6 +42,12 @@ const submitBtn = url => `
 </div>
 `
 
+/**
+ * Returns the HTML for the popup based on data received.
+ *
+ * @param {Response} response - The response data from the background porcess.
+ * @returns {HTMLElement}
+ */
 const html = ({ data }) => {
   if (data.entries && data.entries.length) {
     return `<ul class="container">${data.entries.map(row)}</ul>`

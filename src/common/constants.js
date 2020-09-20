@@ -1,7 +1,9 @@
 /**
- * @typedef {Object} Port - Connection between contexts
+ *
+ * Connection between contexts
  * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/Port
  *
+ * @typedef {Object} Port
  * @property {string} name
  * @property {Function} disconnect
  * @property {Object} error
@@ -12,8 +14,9 @@
  */
 
 /**
- * @typedef {Object} Response - The response from the background script.
+ * @typedef {Object} Response
  *
+ * The response from the background script.
  * @property {RESPONSE_TYPE} type - The type of the response.
  * @property {REQUEST_ERROR_TYPE} [errorType] - The error type if any.
  * @property {Object} [err] - The error if any.
@@ -34,7 +37,6 @@ export const ON_DEMAND_REQESTS = 'ON_DEMAND_REQESTS'
  * If logging is enabled or not.
  *
  * @constant
- * @type {string}
  */
 export const LOGGING = 'LOGGING'
 
@@ -108,9 +110,13 @@ export const RESPONSE_TYPE = {
  * @enum {string}
  */
 export const REQUEST_ERROR_TYPE = {
-  /* The response could not be parsed. */
+  /**
+   * The response could not be parsed.
+   **/
   JSON_PARSE: 'jsonParse',
-  /* The server responded with a status code different than 2xx. */
+  /**
+   * The server responded with a status code different than 2xx.
+   **/
   STATUS_CODE: 'statusCode',
   /* There was a network error. */
   NETWORK: 'network'

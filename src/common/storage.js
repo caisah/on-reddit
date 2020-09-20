@@ -13,7 +13,7 @@ class Storage {
   /**
    * Returns a promise which resolves with the stored data
    *
-   * @returns {promise<any>}
+   * @returns {Promise<any>}
    */
   getValueAsync () {
     return new Promise((resolve, reject) => {
@@ -35,7 +35,7 @@ class Storage {
    *
    * @param {any} - Data to be set to browser.local.storage.local
    *
-   * @returns {promise<any>}
+   * @returns {Promise<any>}
    */
   setValueAsync (data) {
     return new Promise((resolve, reject) => {

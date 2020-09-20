@@ -3,58 +3,88 @@ import successHtml from './templates/success'
 import failHtml from './templates/fail'
 import notAvailableHtml from './templates/not-available'
 import { PORT_NAME, MESSAGES, RESPONSE_TYPE } from '../common/constants'
+import logger from '../common/logger'
 
 /**
  * @typedef {import('../common/constants').Port} Port
+ * @typedef {import('../common/constants').Response} Response
+ * @typedef {import('../common/constants').RESPONSE_TYPE} RESPONSE_TYPE
  */
 
-const renderSuccess = (main, data) => {
+/**
+ * Renders the popup when there is available data for it.
+ *
+ * @param {HTMLElement} node - The html popup node where to render.
+ * @param {Response} data - The response data from the background porcess.
+ * @returns {void}
+ */
+const renderSuccess = (node, data) => {
   console.log('on-reddit :: [popup] Rendering: success')
 
-  main.innerHTML = DOMPurify.sanitize(successHtml(data))
+  node.innerHTML = DOMPurify.sanitize(successHtml(data))
 }
 
-const renderFail = main => {
+/**
+ * Renders the popup for the case when there was an error getting the data.
+ *
+ * @param {HTMLElement} node - The html popup node where to render.
+ * @returns {void}
+ */
+const renderFail = node => {
   console.log('on-reddit :: [popup] Rendering: fail page')
 
-  main.innerHTML = failHtml()
+  node.innerHTML = failHtml()
 }
 
-const renderNotAvailable = main => {
+/**
+ * Renders the popup for the case when there is no data available.
+ *
+ * @param {HTMLElement} node - The html popup node where to render.
+ * @returns {void}
+ */
+const renderNotAvailable = node => {
   console.log('on-reddit :: [popup] Rendering: not available page')
 
-  main.innerHTML = notAvailableHtml()
+  node.innerHTML = notAvailableHtml()
 }
 
+/**
+ * Mapping between response type and render function.
+ *
+ */
 const renderMap = {
   [RESPONSE_TYPE.ENTRIES]: renderSuccess,
   [RESPONSE_TYPE.ERROR]: renderFail,
   [RESPONSE_TYPE.NOT_AVAILABLE]: renderNotAvailable
 }
 
-const render = data => {
-  console.log('on-reddit :: [popup] Received data from background', data)
+/**
+ * Renders a new popup version base on the response from the background process.
+ *
+ * @param {Response} response - The response from the background porcess.
+ * @returns {void}
+ */
+const render = response => {
+  console.log('on-reddit :: [popup] Received data from background', response)
 
   const main = document.getElementById('main')
 
-  renderMap[data.type](main, data)
+  renderMap[response.type](main, response)
 }
 
 /**
- * Connect to the background process (through PORT_NAME) & listen to messages from it.
+ * Connect to the background process (through the PORT_NAME) & listen to messages from it.
  *
  * @returns {void}
  */
 const init = () => {
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log('on-reddit :: [popup] Popup loaded')
+  console.log('on-reddit :: [popup] Popup loaded')
 
-    // Create port for communication
-    const port = browser.runtime.connect({ name: PORT_NAME })
+  // Create port for communication
+  const port = browser.runtime.connect({ name: PORT_NAME })
 
-    port.onMessage.addListener(render)
-    port.postMessage(MESSAGES.GET_DATA)
-  })
+  port.onMessage.addListener(render)
+  port.postMessage(MESSAGES.GET_DATA)
 }
 
 export default init
