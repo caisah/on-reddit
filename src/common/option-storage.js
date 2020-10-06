@@ -1,7 +1,7 @@
-import BasicStorage from '../common/storage'
-import logger from '../common/logger'
+import BasicStorage from './basic-storage'
+import logger from './logger'
 
-class Storage extends BasicStorage {
+class OptionsStorage extends BasicStorage {
   subscribeToChanges (listener, ...args) {
     browser.storage.onChanged.addListener((changes, area) => {
       if (area === 'local') {
@@ -20,4 +20,4 @@ class Storage extends BasicStorage {
   }
 }
 
-export default Storage
+export default OptionsStorage

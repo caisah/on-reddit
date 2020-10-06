@@ -1,10 +1,12 @@
 import { LOGGING, ON_DEMAND_REQESTS } from '../common/constants'
 import handleConnect from './connection'
 import logger from '../common/logger'
-import Option from './option'
+import OptionStorage from '../common/option-storage'
 import cache from './cache'
 import getTabInfo from './tab-info'
 import badge from './badge'
+
+const SRC = 'background'
 
 const setBadge = async id => {
   logger.log('[set badge] Trying to set badge')
@@ -30,21 +32,25 @@ const handleTabActivation = async tab => {
 
 const handleTabUpdate = async (id, changeInfo, tab) => {
   const tabInfo = getTabInfo(tab, changeInfo)
+  const { discarded, active } = tabInfo
 
-  if (tabInfo.discarded) {
+  // Delete cache when tab is discarded
+  if (discarded) {
     cache.removeId(id)
     logger.log('[tab update] Tab discarded', id)
     return
   }
 
-  if (tabInfo.active) {
+  // If tab becomes active, set it as active, cache data & set badge
+  if (active) {
     cache.setActiveTabId(id)
+    const { urlChanged, tabId, newUrl } = tabInfo
 
-    if (tabInfo.urlChanged) {
-      logger.log('[tab update] Url changed', tabInfo.tabId, tabInfo.newUrl)
+    if (urlChanged) {
+      logger.log('[tab update] Url changed', tabId, newUrl)
       await cache.storeNewData(tabInfo)
     } else {
-      logger.log('[tab update] Caching tab', tabInfo.tabId, tabInfo)
+      logger.log('[tab update] Caching tab', tabId, tabInfo)
       await cache.storeData(tabInfo)
     }
 
@@ -54,22 +60,23 @@ const handleTabUpdate = async (id, changeInfo, tab) => {
 
 const startup = async () => {
   // Option for toggling logging
-  const loggingOption = new Option(LOGGING)
+  const loggingOption = new OptionStorage(LOGGING)
 
   // Option for making requests only when clicking the badge
-  const requestsOnDemandOption = new Option(ON_DEMAND_REQESTS)
+  const requestsOnDemandOption = new OptionStorage(ON_DEMAND_REQESTS)
 
   // Get the initial values for the options from storage.local
-  const [shouldLog, shouldRequestOnDemand] = await Promise.resolve([
+  const [shouldLog, shouldRequestOnDemand] = await Promise.all([
     loggingOption.getValueAsync(),
     requestsOnDemandOption.getValueAsync()
   ])
+  logger.log('should log', shouldLog)
 
   // Enforce logging option
-  logger.toggleLogging(shouldLog, 'background')
+  logger.toggleLogging(shouldLog, SRC)
 
   // Toggle logging if the value from storage.local changes
-  loggingOption.subscribeToChanges(logger.toggleLogging, 'background')
+  loggingOption.subscribeToChanges(logger.toggleLogging, SRC)
 
   requestsOnDemandOption.subscribeToChanges(() => {
   })

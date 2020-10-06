@@ -1,7 +1,7 @@
 /**
  * Class managing storage to browser.storage.local
  */
-class Storage {
+class BasicStorage {
   /**
    * @constructor
    * @param {string} key - Key for the stored data
@@ -51,4 +51,4 @@ class Storage {
   }
 }
 
-export default Storage
+export default BasicStorage

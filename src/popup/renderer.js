@@ -2,7 +2,8 @@ import DOMPurify from 'dompurify'
 import successHtml from './templates/success'
 import failHtml from './templates/fail'
 import notAvailableHtml from './templates/not-available'
-import { PORT_NAME, MESSAGES, RESPONSE_TYPE } from '../common/constants'
+import { PORT_NAME, MESSAGES, RESPONSE_TYPE, LOGGING } from '../common/constants'
+import OptionStorage from '../common/option-storage'
 import logger from '../common/logger'
 
 /**
@@ -19,7 +20,7 @@ import logger from '../common/logger'
  * @returns {void}
  */
 const renderSuccess = (node, data) => {
-  console.log('on-reddit :: [popup] Rendering: success')
+  logger.log('on-reddit :: [popup] Rendering: success')
 
   node.innerHTML = DOMPurify.sanitize(successHtml(data))
 }
@@ -31,7 +32,7 @@ const renderSuccess = (node, data) => {
  * @returns {void}
  */
 const renderFail = node => {
-  console.log('on-reddit :: [popup] Rendering: fail page')
+  logger.log('on-reddit :: [popup] Rendering: fail page')
 
   node.innerHTML = failHtml()
 }
@@ -43,7 +44,7 @@ const renderFail = node => {
  * @returns {void}
  */
 const renderNotAvailable = node => {
-  console.log('on-reddit :: [popup] Rendering: not available page')
+  logger.log('on-reddit :: [popup] Rendering: not available page')
 
   node.innerHTML = notAvailableHtml()
 }
@@ -65,7 +66,7 @@ const renderMap = {
  * @returns {void}
  */
 const render = response => {
-  console.log('on-reddit :: [popup] Received data from background', response)
+  logger.log('on-reddit :: [popup] Received data from background', response)
 
   const main = document.getElementById('main')
 
@@ -77,8 +78,13 @@ const render = response => {
  *
  * @returns {void}
  */
-const init = () => {
-  console.log('on-reddit :: [popup] Popup loaded')
+const init = async () => {
+  const loggingOption = new OptionStorage(LOGGING)
+  const shouldLog = await loggingOption.getValueAsync()
+
+  logger.toggleLogging(shouldLog, 'popup')
+
+  logger.log('on-reddit :: [popup] Popup loaded')
 
   // Create port for communication
   const port = browser.runtime.connect({ name: PORT_NAME })

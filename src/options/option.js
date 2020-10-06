@@ -1,8 +1,8 @@
-import Storage from '../common/storage'
+import BasicStorage from '../common/basic-storage'
 
 class Option {
   constructor (storageKey, id, initialValue) {
-    this.storage = new Storage(storageKey)
+    this.storage = new BasicStorage(storageKey)
     this.initialValue = initialValue
     this.element = document.getElementById(id)
   }
